@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>Siblings</title>
+    <meta charset="utf-8">
+  </head>
+  
+  <body>
+    <form>
+    <ul>
+    	<li><input type="radio" value="1" name="group" id="r1" checked><label for="r1"> Первый элемент </label></li>
+    	<li><input type="radio" value="2" name="group" id="r2"><label for="r2"> Второй элемент</label></li>
+    	<li><input type="radio" value="3" name="group" id="r3"><label for="r3"> Третий элемент</label></li>
+    	<li><input type="radio" value="4" name="group" id="r4"><label for="r4"> Четвёртый элемент</label></li>
+    	<li><input type="radio" value="5" name="group" id="r5"><label for="r5"> Пятый элемент</label></li>
+    	<li><input type="radio" value="6" name="group" id="r6"><label for="r6"> Шестой элемент</label></li>
+    	<li><input type="radio" value="7" name="group" id="r7"><label for="r7"> Седьмой элемент</label></li>
+    </ul>
+    </form>
+    <form>
+    	<input type="button" value="Выбрать первый элемент" id="first" onclick='firstItem()'><br>
+    	<input type="button" value="Выбрать предыдущий элемент" onclick='previousItem()'><br>
+    	<input type="button" value="Выбрать следующий элемент" onclick='nextItem()'><br>
+    	<input type="button" value="Выбрать последний элемент" onclick='lastItem()'><br>
+    	<input type="button" value="Добавить элемент" onclick='addItem()'><br>
+    	<input type="button" value="Удалить элемент" onclick='removeItem()'><br>
+    	<input type="button" value="Добавить в начало" onclick='addBefore()'><br>
+    </form>
+	<script>
+		// не ясно, почему эта функция перестаёт работать после добавления элемента в начало списка.
+		function firstItem (){
+			var items = document.getElementsByTagName('li');
+			var firstItem = items[0].firstChild;
+			firstItem.checked = true;
+		};
+			// функция работает нормально до того, как будут добавлены новые элементы. 
+		function previousItem () {
+			var items = document.getElementsByTagName('li');
+			for (var index = 0; index < items.length; index++) {
+				var item = items[index].firstElementChild;
+				if (item.checked == true) {
+					var parent = item.parentNode; //li
+					var previous = parent.previousElementSibling; //li-1
+					var prevItem = previous.firstElementChild;
+					prevItem.checked = true;
+				};
+					continue;
+			};
+		};
+
+		// не ясно, почему эта функция работает как lastItem(), а не выбирает следующий элемент
+		function nextItem () {
+			var items = document.getElementsByTagName('li');
+			for (var index = 0; index < items.length; index++) {
+				var item = items[index].firstElementChild;
+				if (item.checked == true) {
+					var parent = item.parentNode; //li
+					var next = parent.nextElementSibling; //li+1
+					var nextItem = next.firstElementChild;
+					nextItem.checked = true;
+				};
+					continue;
+			};
+		};
+			// не ясно, почему функция перестаёт работать после добавления элементов
+		function lastItem(){
+			var ulItems = document.getElementsByTagName('ul');
+			var lastItem = ulItems[0].lastElementChild;
+			var lastItemChild = lastItem.firstElementChild;
+			lastItemChild.checked = true;
+		};
+
+		function addItem() {
+			var ulItems = document.getElementsByTagName('ul');
+			var ul = ulItems[0];
+			var li = document.createElement('li');
+			var liItems = document.getElementsByTagName('li');
+			var xxx = liItems.length;	// не ясно, почему после добавления элемента прибавляется индекс ххх больший на 2, а не на 1, чем liItems.length
+			li.innerHTML = '<li><input type="radio" value="' + xxx + '" name="group" id="r' + xxx + '><label for="r' + xxx + '">' + xxx + ' элемент</label></li>';
+			ul.appendChild(li);
+		};
+
+		function removeItem() {
+			var ulItems = document.getElementsByTagName('ul');
+			var ul = ulItems[0];
+			var li = ul.lastElementChild;
+			ul.removeChild(li);
+		};
+
+		function addBefore(){
+			var ulItems = document.getElementsByTagName('ul');
+			var ul = ulItems[0];
+			var liFirst = ul.firstElementChild;
+			var newLi = document.createElement('li');
+			newLi.innerHTML = '<li><input type="radio" value="0" name="group" id="r0"><label for="r0"> Нулевой элемент</label></li>';
+			ul.insertBefore(newLi, liFirst);
+		};
+
+	</script>
+  </body>
+
+</html>
